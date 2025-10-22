@@ -1,0 +1,372 @@
+/* =========================
+   THEME: White-Red (Global)
+   ========================= */
+:root{
+  --red:#e11d2e;
+  --red-dark:#b91c1c;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --white:#ffffff;
+  --outline:#e5e7eb;
+  --shadow: 0 10px 24px rgba(0,0,0,.12);
+  --radius: 16px;
+
+  /* Pixel map vars */
+  --grass1:#8fd06f;
+  --grass2:#79c565;
+  --gstep:16px;             /* ขนาดแถบหญ้า (12–24px ได้) */
+  --path:#e3c577;           /* สีถนนทราย */
+  --path-edge:#d1b36a;      /* ขอบถนนเข้มขึ้น */
+  --tilemap:640px;          /* ขนาด 1 ไทล์ของฉาก */
+  --roadW:120px;            /* ความกว้างถนน */
+  --edge:4px;               /* ความหนาขอบถนน */
+}
+
+/* =========================
+   Reset & Base
+   ========================= */
+*{ box-sizing:border-box; }
+html,body,#root{ height:100%; }
+a { color: inherit; text-decoration: none; }
+
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, Segoe UI, Arial;
+  color:var(--text);
+
+  /* ===== BACKGROUND: Pixel Pokémon Map (รายละเอียดมากขึ้น) ===== */
+  background:
+
+    /* เกรนละเอียด */
+    repeating-radial-gradient(circle,
+      rgba(255,255,255,.035) 0 1px, transparent 1px 4px),
+
+    /* ดอกไม้/หิน */
+    radial-gradient(circle at 12% 18%, #fff 0 2px, transparent 2px),
+    radial-gradient(circle at 34% 42%, #ffd84d 0 2px, transparent 2px),
+    radial-gradient(circle at 72% 28%, #ff8cb0 0 2px, transparent 2px),
+    radial-gradient(circle at 64% 78%, #edf2f7 0 2px, transparent 2px),
+    radial-gradient(circle at 26% 72%, #cbd5e1 0 2px, transparent 2px),
+
+    /* ปะหลอมมืด */
+    radial-gradient(60px 40px at 20% 65%, rgba(0,0,0,.05), transparent 60%),
+    radial-gradient(80px 50px at 75% 35%, rgba(0,0,0,.05), transparent 60%),
+
+    /* vignette */
+    radial-gradient(70px 70px at 18% 22%, rgba(0,0,0,.07), transparent 60%),
+    radial-gradient(90px 90px at 78% 68%, rgba(0,0,0,.07), transparent 60%),
+
+    /* ถนนแนวตั้ง */
+    linear-gradient(90deg,
+      transparent calc(50% - calc(var(--roadW)/2) - var(--edge)),
+      var(--path-edge) calc(50% - calc(var(--roadW)/2) - var(--edge)) calc(50% - calc(var(--roadW)/2)),
+      var(--path)      calc(50% - calc(var(--roadW)/2))               calc(50% + calc(var(--roadW)/2)),
+      var(--path-edge) calc(50% + calc(var(--roadW)/2))               calc(50% + calc(var(--roadW)/2) + var(--edge)),
+      transparent      calc(50% + calc(var(--roadW)/2) + var(--edge))
+    ),
+
+    /* ถนนแนวนอน (ที่ 35% ของไทล์) */
+    linear-gradient(0deg,
+      transparent calc(35% - var(--edge)),
+      var(--path-edge) calc(35% - var(--edge)) 35%,
+      var(--path)      35%                      calc(35% + var(--roadW)),
+      var(--path-edge) calc(35% + var(--roadW)) calc(35% + var(--roadW) + var(--edge)),
+      transparent      calc(35% + var(--roadW) + var(--edge))
+    ),
+
+    /* หญ้าพิกเซล */
+    repeating-linear-gradient(
+      0deg,
+      var(--grass1) 0 var(--gstep),
+      var(--grass2) var(--gstep) calc(var(--gstep)*2)
+    ),
+
+    /* เส้นกริดพิกเซลจาง */
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,0,0,.035) 0 1px,
+      transparent 1px calc(var(--gstep)*2)
+    );
+
+  background-size:
+    /* เกรน */ 3px 3px,
+
+    /* ดอกไม้/หิน */ var(--tilemap) var(--tilemap),
+                      var(--tilemap) var(--tilemap),
+                      var(--tilemap) var(--tilemap),
+                      var(--tilemap) var(--tilemap),
+                      var(--tilemap) var(--tilemap),
+
+    /* ปะหลอม */     var(--tilemap) var(--tilemap),
+                      var(--tilemap) var(--tilemap),
+
+    /* vignette */   auto, auto,
+
+    /* ถนน */        var(--tilemap) var(--tilemap),
+                      var(--tilemap) var(--tilemap),
+
+    /* หญ้า */       auto,
+    /* กริด */       auto;
+
+  background-repeat: repeat;
+}
+
+/* =========================
+   Page Panel
+   ========================= */
+main.container > section{
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(2px);
+  border: 2px solid #eef2f7;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.12);
+}
+
+/* =========================
+   Navbar
+   ========================= */
+.nav{
+  position: sticky; top: 0; z-index: 50;
+  background: var(--white);
+  border-bottom: 2px solid #f1f5f9;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+}
+.nav-inner{
+  max-width: 1200px; margin: 0 auto; padding: 18px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-left{ display:flex; align-items:center; gap:12px; }
+.nav-right{ display:flex; gap:10px; }
+
+/* โลโก้เม็ดยาแดง */
+.brand-pill{
+  display:inline-block; font-weight:900; letter-spacing:.3px;
+  color:var(--red); background:var(--white);
+  border:2px solid var(--red); padding:10px 16px; border-radius:14px;
+  box-shadow: 0 2px 0 var(--red-dark);
+  transition: transform .05s ease, box-shadow .05s ease;
+}
+.brand-pill:active{ transform: translateY(1px); box-shadow: 0 1px 0 var(--red-dark); }
+
+/* ปุ่มเม็ดยาแดง */
+.pill{
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  padding:10px 14px; border-radius:14px; font-weight:700; cursor:pointer;
+  border:2px solid var(--red); color:var(--red); background:#fff;
+  box-shadow: 0 2px 0 var(--red-dark);
+  transition: transform .05s ease, box-shadow .05s ease, filter .1s;
+}
+.pill:hover{ filter:brightness(1.02); }
+.pill:active{ transform: translateY(1px); box-shadow: 0 1px 0 var(--red-dark); }
+.pill.filled{ background:var(--red); color:#fff; }
+.pill.outline{ background:#fff; color:var(--red); }
+.pill[disabled]{ opacity:.5; cursor:not-allowed; box-shadow:none; transform:none; }
+a.pill.active{ background:var(--red); color:#fff; }
+
+.container{ max-width:1200px; margin:32px auto; padding:0 20px; }
+.footer{ text-align:center; color:#64748b; padding:32px 0; font-size:12px; }
+
+/* Toolbar & Inputs */
+.toolbar{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin:12px 0 22px; }
+.input{
+  flex:1 1 280px; background:#fff; border:2px solid var(--outline);
+  color:var(--text); padding:12px 14px; border-radius:12px; outline:none;
+}
+.input:focus{ border-color:var(--red); box-shadow:0 0 0 4px rgba(225,29,46,.12); }
+
+/* =========================
+   Grid & Cards
+   ========================= */
+.grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:18px; }
+
+.card{
+  position:relative; border-radius:var(--radius); box-shadow:var(--shadow);
+}
+.card.white{ background:#fff; border:2px solid #f1f5f9; padding:14px; }
+.card.center{ text-align:center; }
+.card img{ width:100%; height:170px; object-fit:contain; }
+
+/* Ribbon แดง */
+.ribbon{
+  position:absolute; top:12px; right:0;
+  background: linear-gradient(0deg, var(--red-dark), var(--red));
+  color:#fff; font-weight:800; font-size:12px;
+  padding:8px 14px 8px 18px; border-top-left-radius:12px; border-bottom-left-radius:12px;
+  border:2px solid var(--red-dark); border-right:0;
+  text-transform:uppercase; letter-spacing:.5px;
+  box-shadow: 0 4px 12px rgba(225,29,46,.35);
+}
+.ribbon.static{ pointer-events:none; }
+
+/* Rows / Badges / Text */
+.row{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:10px; }
+.badge{ font-size:12px; padding:6px 10px; border-radius:999px; border:2px solid #e5e7eb; }
+.badge.light{ background:#fff; color:#334155; }
+.name{ font-size:16px; }
+
+/* ปุ่มแบบเดิม */
+.btn{ border:none; border-radius:12px; cursor:pointer; padding:10px 14px; font-weight:700; }
+.btn.add{ background:#2563eb; color:#fff; }
+.btn.ghost{ background:#fff; border:2px solid var(--outline); color:#334155; }
+.btn.danger{ background:var(--red); color:#fff; }
+
+/* =========================
+   Detail Page
+   ========================= */
+.detail{ display:grid; grid-template-columns:1.1fr 1.4fr; gap:22px; }
+@media (max-width:920px){ .detail{ grid-template-columns:1fr; } }
+.types{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:8px; }
+.actions{ display:flex; gap:10px; justify-content:center; margin-top:12px; }
+
+/* Stats Bar */
+.stat{ display:grid; grid-template-columns: 140px 1fr 48px; align-items:center; gap:10px; margin:10px 0; }
+.stat-name{ color:#64748b; }
+.bar.light{ height:10px; background:#f3f4f6; border:2px solid #e5e7eb; border-radius:999px; overflow:hidden; }
+.fill.red{ height:100%; background: linear-gradient(90deg, #fecaca, #ef4444); }
+
+/* =========================
+   Skeleton
+   ========================= */
+.skel{ position:relative; overflow:hidden; background:#f8fafc; border-radius:12px; border:2px solid #e5e7eb; }
+.skel::after{ content:""; position:absolute; inset:0; background: linear-gradient(90deg, transparent, rgba(0,0,0,.06), transparent); transform: translateX(-100%); animation: shimmer 1.4s infinite; }
+.skel.img{ height:170px; }
+@keyframes shimmer{ to{ transform:translateX(100%);} }
+
+/* =========================
+   Type Badges (บนพื้นขาว)
+   ========================= */
+.type{ padding:6px 10px; border-radius:999px; font-size:12px; border:2px solid #e5e7eb; }
+.type-fire{ background:#fee2e2; color:#991b1b; }
+.type-water{ background:#e0f2fe; color:#075985; }
+.type-grass{ background:#dcfce7; color:#065f46; }
+.type-electric{ background:#fef9c3; color:#854d0e; }
+.type-ice{ background:#e0f2fe; color:#0369a1; }
+.type-fighting{ background:#fee2e2; color:#7f1d1d; }
+.type-poison{ background:#f3e8ff; color:#6b21a8; }
+.type-ground{ background:#fef3c7; color:#92400e; }
+.type-flying{ background:#eef2ff; color:#3730a3; }
+.type-psychic{ background:#fce7f3; color:#9d174d; }
+.type-bug{ background:#ecfccb; color:#3f6212; }
+.type-rock{ background:#e7e5e4; color:#44403c; }
+.type-ghost{ background:#e9d5ff; color:#5b21b6; }
+.type-dragon{ background:#e0e7ff; color:#1e3a8a; }
+.type-dark{ background:#e5e7eb; color:#111827; }
+.type-steel{ background:#f1f5f9; color:#334155; }
+.type-fairy{ background:#fee2f2; color:#a21caf; }
+
+/* ----- My Pokémon page: ไม่มีแผงใส/กลาส ----- */
+.mypokemon-page{
+  background: transparent;
+  padding: 0;
+  border: 0;
+}
+.mypokemon-page .panel,
+.mypokemon-page .glass,
+.mypokemon-page .card.glass,
+.mypokemon-page .glass-card{
+  display: none !important;
+}
+
+/* ==== Evolution Chain layout (fixed text overlap & aligned buttons) ==== */
+.evo-row{
+  display:flex;
+  gap:28px;
+  align-items:stretch;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.evo-wrap{
+  position:relative;
+  display:grid;
+  place-items:center;
+}
+/* การ์ดทุกใบสูงเท่ากัน → ปุ่มอยู่บรรทัดเดียวกันเสมอ */
+.evo-card{
+  width:200px;
+  height:270px;
+  display:grid;
+  grid-template-rows: 150px 28px 1fr 42px; /* รูป / ชื่อ / เงื่อนไข / ปุ่ม */
+  gap:8px;
+  align-items:start;
+  justify-items:center;
+}
+.evo-img{
+  width:140px; height:150px; object-fit:contain; display:block; margin:0;
+}
+.evo-name{
+  height:28px; line-height:1.2;
+  display:flex; align-items:center; justify-content:center;
+  padding:0 6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:center;
+}
+.evo-cond{ width:100%; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.evo-btn{ align-self:end; margin-top:0; }
+/* เส้นเชื่อม */
+.evo-connector{
+  position:absolute; right:-18px; top:50%;
+  width:36px; height:2px; background:#ef4444; border-radius:2px;
+}
+@media (max-width: 680px){
+  .evo-row{gap:18px}
+  .evo-connector{
+    right:50%; transform:translateX(50%);
+    top:auto; bottom:-14px; width:2px; height:28px;
+  }
+}
+
+/* 2-column responsive (Battle page) */
+.grid-2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:14px;
+}
+@media (max-width: 900px){
+  .grid-2{ grid-template-columns: 1fr; }
+}
+
+/* HP bar (Battle) */
+.hpbar{
+  width:100%;
+  height:12px;
+  background:#e2e8f0;
+  border-radius:999px;
+  overflow:hidden;
+  border:2px solid #e5e7eb;
+}
+.hpbar-fill{
+  height:100%;
+  transition: width .25s ease;
+}
+.hpbar-fill.ok{ background:#22c55e; }
+.hpbar-fill.mid{ background:#f59e0b; }
+.hpbar-fill.low{ background:#ef4444; }
+
+
+/* ตัวอย่าง: ปรับ pill ให้ดูนุ่ม */
+.pill {
+  border-radius: 999px;
+  padding: 8px 14px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  cursor: pointer;
+  transition: transform .05s ease, box-shadow .15s ease;
+}
+.pill.filled {
+  background: #ef4444; /* โทนแดง Poke Ball */
+  color: #fff;
+  border-color: transparent;
+}
+.pill.outline:hover { box-shadow: 0 4px 12px rgba(0,0,0,.06); transform: translateY(-1px); }
+.pill.filled:hover  { filter: brightness(1.05); transform: translateY(-1px); }
+/* ยกการ์ดเบา ๆ เวลา hover/focus-within */
+.poke-card--clickable:hover,
+.poke-card--clickable:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 38px rgba(0,0,0,.12);
+}
+
+/* ปุ่มด้านล่างของการ์ดให้ดูเนียน */
+.poke-card-actions .pill {
+  border-radius: 999px;
+  padding: 8px 14px;
+}
